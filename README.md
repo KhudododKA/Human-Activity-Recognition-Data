@@ -1,10 +1,11 @@
 ## Human-Activity-Recognition-Data
 
-The project will clean the data from Human Activity Recognition data collected using smartphone dataset.
+The project will read, clean, and prepare new analytic data from [Human Activity Recognition data](https://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
 
 
 ### Read the data
-- a set of codes that will read the accompanying data for the train and test set. The train data files will be read first followed by the test data. Each train and test set will have three pairs of data files: 
+
+A set of codes that will read the accompanying data for the train and test set. The train data files will be read first followed by the test data. Each train and test set will have three pairs of data files: 
 
 - subject data
 - X data
