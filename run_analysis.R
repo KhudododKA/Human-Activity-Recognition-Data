@@ -1,3 +1,6 @@
+## Load library
+library(tidyverse)
+
 ## Read the data
 ### train data first
 df_train_sub<-read.table("UCI HAR Dataset/train/subject_train.txt")
@@ -21,13 +24,13 @@ df_merged_sub<-df_merged_sub%>%rename(.,subject_id=V1)
 
 # merge
 
-df_total<-cbind(df_merged_sub,df_merged_x)
-df_total<-cbind(df_merged_y,df_total)
+df_total<-cbind(df_merged_y,df_merged_x)
+df_total<-cbind(df_merged_sub,df_total)
 
 ## select and summarise
 
 ## select only the mean and standard deviation of each features
-df_total<-df_total%>%select(V1,subject_id,contains(c("mean","std")))
+df_total<-df_total%>%select(subject_id,V1,contains(c("mean","std")))
 
 ## change the activity variable value to descriptive labels
 df_total$V1<-factor(df_total$V1,levels = c(1,2,3,4,5,6),
@@ -40,4 +43,7 @@ df_total1<-df_total%>%
   group_by(subject_id,Activity)%>%
   summarise(across(c(1:86),mean,na.rm=TRUE))
 
+## save tidy data
 
+write.table(df_total,file = "Tidy data UCI HAR.txt")
+write.table(df_total1,file = "Tidy data UCI HAR summary.txt")
