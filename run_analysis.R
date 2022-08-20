@@ -45,5 +45,5 @@ df_total1<-df_total%>%
 
 ## save tidy data
 
-write.table(df_total,file = "Tidy data UCI HAR.txt")
-write.table(df_total1,file = "Tidy data UCI HAR summary.txt")
+write.table(df_total,file = "Tidy data UCI HAR.txt",row.names = FALSE)
+write.table(df_total1,file = "Tidy data UCI HAR summary.txt",row.names = FALSE)

@@ -1,46 +1,28 @@
-# Human-Activity-Recognition-Data
+## Human-Activity-Recognition-Data
 
 The project will clean the data from Human Activity Recognition data collected using smartphone dataset.
 
-## Read the data
-### train data first
-df_train_sub<-read.table("UCI HAR Dataset/train/subject_train.txt")
-df_train_x<-read.table("UCI HAR Dataset/train/X_train.txt")
-df_train_y<-read.table("UCI HAR Dataset/train/y_train.txt")
 
-## test data
-df_test_sub<-read.table("UCI HAR Dataset/test/subject_test.txt")
-df_test_x<-read.table("UCI HAR Dataset/test/X_test.txt")
-df_test_y<-read.table("UCI HAR Dataset/test/y_test.txt")
-df_features<-read.table("UCI HAR Dataset/features.txt")
-## Data cleaning
-# combine/merge the train and test data
-df_merged_x<-rbind(df_train_x,df_test_x)
-df_merged_y<-rbind(df_train_y,df_test_y)
-df_merged_sub<-rbind(df_train_sub,df_test_sub)
+### Read the data
+- a set of codes that will read the accompanying data for the train and test set. The train data files will be read first followed by the test data. Each train and test set will have three pairs of data files: 
 
-## rename features adn merge
-names(df_merged_x)<-df_features$V2
-df_merged_sub<-df_merged_sub%>%rename(.,subject_id=V1)
+- subject data
+- X data
+- Y data
 
-# merge
+The X data are the features and the Y data is the activity. In addition, the feature data file is independent of the train and test data that contains the names of the features. This file is a lookup for the feature names in the X data for the train and test set
 
-df_total<-cbind(df_merged_sub,df_merged_x)
-df_total<-cbind(df_merged_y,df_total)
+### Data cleaning
 
-## select and summarise
+The main aspect of the data cleaning will mostly include merging/combining the data files. Specifically, the the train and test data files will be merged for each of the 3 files mentioned above. That is, the subject data, X data, and Y data will be merged for the train and test set to make one merged file. After that the names in the feature column will be used for the column names in the merged data. Other columns will also be renamed such as V1 to subject_id.
 
-## select only the mean and standard deviation of each features
-df_total<-df_total%>%select(V1,subject_id,contains(c("mean","std")))
+The final step will include merging the subject file that contains subject id to the merged file
 
-## change the activity variable value to descriptive labels
-df_total$V1<-factor(df_total$V1,levels = c(1,2,3,4,5,6),
-                    labels = c("WALKING","WALKING_UPSTAIRS","WALKING_DOWNSTAIRS","SITTING","STANDING","LAYING"))
-# Rename the variable as activity
-df_total<-df_total%>%rename(.,Activity=V1)
+### select and summarise
 
-## summarise across to get the average for each subject and activity
-df_total1<-df_total%>%
-  group_by(subject_id,Activity)%>%
-  summarise(across(c(1:86),mean,na.rm=TRUE))
+Here we will do some data management to first select the mean and standard deviation columns only. Then we add the labels to the activity variable and rename it to activity. 
+
+The final step is to summarise across the columns to create the average of each variable for each activity and each subject
+
+
 
